@@ -10,7 +10,7 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
-import './MyNavbar.scss;
+import './MyNavbar.scss';
 
 class MyNavbar extends React.Component {
   static propTypes = {
