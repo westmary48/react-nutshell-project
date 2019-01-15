@@ -12,7 +12,7 @@ import Auth from '../components/pages/Auth/Auth';
 import Home from '../components/Home/Home';
 import Friends from '../components/pages/Friends/Friends';
 import Weather from '../components/pages/Weather/Weather';
-import Articles from '../components/pages/Articles/Articles';
+import Articles from '../components/pages/ArticlePage/Articles/Articles';
 import Messages from '../components/pages/Messages/Messages';
 import Events from '../components/pages/Events/Events';
 import MyNavBar from '../components/MyNavbar/MyNavbar';
