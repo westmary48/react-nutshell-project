@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter, Route, Redirect, Switch,
 } from 'react-router-dom';
@@ -11,7 +12,7 @@ import Auth from '../components/pages/Auth/Auth';
 import Home from '../components/Home/Home';
 import Friends from '../components/pages/Friends/Friends';
 import Weather from '../components/pages/Weather/Weather';
-import Articles from '../components/pages/Articles/Articles';
+import Articles from '../components/pages/ArticlePage/Articles/Articles';
 import Messages from '../components/pages/Messages/Messages';
 import Events from '../components/pages/Events/Events';
 import MyNavBar from '../components/MyNavbar/MyNavbar';
@@ -75,7 +76,7 @@ class App extends React.Component {
         <BrowserRouter>
           <React.Fragment>
             <MyNavBar isAuthed={authed} logoutClickEvent={logoutClickEvent} />
-            <div className='appcontainer'>
+            <div className='container'>
             <div className='row'>
                 <Switch>
                   <PrivateRoute path='/' exact component={Home} authed={this.state.authed} />

@@ -6,6 +6,10 @@ import authRequests from '../../../helpers/data/authRequests';
 import googleButton from './images/googlebutton.png';
 
 class Auth extends React.Component {
+        static propTypes = {
+          isAuthenticated: PropTypes.func,
+        }
+
   authenticateUser = (e) => {
     e.preventDefault();
     authRequests.authenticate().then(() => {
