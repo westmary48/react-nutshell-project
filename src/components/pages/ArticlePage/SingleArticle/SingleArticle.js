@@ -1,5 +1,6 @@
 import React from 'react';
 import 'firebase/auth';
+import './SingleArticles.scss';
 
 
 class SingleArticle extends React.Component {

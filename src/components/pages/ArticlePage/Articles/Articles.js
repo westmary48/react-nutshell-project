@@ -1,9 +1,9 @@
 import React from 'react';
 import 'firebase/auth';
-import smashRequests from '../../../helpers/data/smashRequests';
+import smashRequests from '../../../../helpers/data/smashRequests';
 import './Articles.scss';
-import SingleArticle from './SingleArticle';
-import authRequests from '../../../helpers/data/authRequests';
+import SingleArticle from '../SingleArticle/SingleArticle';
+import authRequests from '../../../../helpers/data/authRequests';
 
 class Article extends React.Component {
   state = {

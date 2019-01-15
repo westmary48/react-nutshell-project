@@ -63,7 +63,6 @@ const getArticlesFromMeAndFriends = uid => new Promise((resolve, reject) => {
       friendRequests.getMyFriends(uid).then((friendsArray) => {
         friendsArray.push(uid);
         const articlesToKeep = allArticles.filter(f => friendsArray.includes(f.uid));
-        console.log(articlesToKeep);
         resolve(articlesToKeep);
       });
     })
