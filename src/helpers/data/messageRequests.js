@@ -1,5 +1,5 @@
 import axios from 'axios';
-import moment from 'moment';
+// import moment from 'moment';
 import apiKeys from '../apiKeys';
 
 const firebaseUrl = apiKeys.firebaseConfig.databaseURL;
@@ -14,7 +14,7 @@ const getAllMessages = () => new Promise((resolve, reject) => {
           messagesObj[message].id = message;
           messagesArray.push(messagesObj[message]);
         });
-        messagesArray.sort((a, b) => moment(a.timestamp).unix() - moment(b.timestamp).unix());
+        // messagesArray.sort((a, b) => moment(a.timestamp).unix() - moment(b.timestamp).unix());
       }
       resolve(messagesArray);
     })
