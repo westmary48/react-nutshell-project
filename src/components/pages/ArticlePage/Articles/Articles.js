@@ -4,6 +4,7 @@ import smashRequests from '../../../../helpers/data/smashRequests';
 import './Articles.scss';
 import authRequests from '../../../../helpers/data/authRequests';
 import SingleArticle from '../SingleArticle/SingleArticle';
+import NewArticleForm from '../ArticleFrom/ArticleForm';
 
 class Article extends React.Component {
   state = {
@@ -31,12 +32,17 @@ class Article extends React.Component {
         url = {article.url}
         synopsis = {article.synopsis}
         title = {article.title}
-        updateArticles = {this.printArticles}
+        printArticles = {this.printArticles}
         />));
     return (
         <div>
           <h2>Articles</h2>
           <div>{singleArticleItem} </div>
+          <div className="articleForm">
+          <NewArticleForm
+        displayArticles={this.printArticles}
+        />
+        </div>
         </div>
     );
   }

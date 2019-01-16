@@ -10,7 +10,7 @@ class SingleArticle extends React.Component {
     const deleteEvent = (e) => {
       articleRequests.deleteArticle(this.props.id)
         .then(() => {
-          this.props.updateArticles();
+          this.props.printArticles();
         })
         .catch(err => console.error('error with delete', err));
     };
@@ -31,6 +31,7 @@ class SingleArticle extends React.Component {
           <p>{this.props.synopsis}</p>
             <a href={this.props.url}className= "btn btn-danger">{this.props.url}</a>
             { deleteButton() }
+
         </div>
         </div>
     );
