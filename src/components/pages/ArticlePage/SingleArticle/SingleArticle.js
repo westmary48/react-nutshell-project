@@ -15,6 +15,16 @@ class SingleArticle extends React.Component {
         .catch(err => console.error('error with delete', err));
     };
 
+    const editButton = () => {
+      if this.props.uid === articleUid {
+        return (
+          <div>
+            <button className = "btn btn-primary" onClcik= {updateArticle}>
+          </div>
+        );
+      }
+    };
+
     const deleteButton = () => {
       if (this.props.uid === articleUid) {
         return (
