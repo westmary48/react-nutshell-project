@@ -2,15 +2,15 @@ import React from 'react';
 import 'firebase/auth';
 import smashRequests from '../../../../helpers/data/smashRequests';
 import './Articles.scss';
-import SingleArticle from '../SingleArticle/SingleArticle';
 import authRequests from '../../../../helpers/data/authRequests';
+import SingleArticle from '../SingleArticle/SingleArticle';
 
 class Article extends React.Component {
   state = {
     articles: [],
   }
 
-  componentDidMount() {
+  printArticles = () => {
     const uid = authRequests.getCurrentUid();
     smashRequests.getArticlesFromMeAndFriends(uid)
       .then((data) => {
@@ -19,15 +19,20 @@ class Article extends React.Component {
       .catch(err => console.error('err getting data', err));
   }
 
+  componentDidMount() {
+    this.printArticles();
+  }
+
   render() {
-    const singleArticleItem = this.state.articles.map(article => (<SingleArticle
-        key={article.id}
-        articleUid={article.uid}
-        id={article.id}
-        title={article.title}
-        synopsis={article.synopsis}
-        url={article.url}
-    />));
+    const singleArticleItem = this.state.articles.map((article) => (<SingleArticle
+        key = {article.id}
+        uid = {article.uid}
+        id= {article.id}
+        url = {article.url}
+        synopsis = {article.synopsis}
+        title = {article.title}
+        updateArticles = {this.printArticles}
+        />));
     return (
         <div>
           <h2>Articles</h2>
