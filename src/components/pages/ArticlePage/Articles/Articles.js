@@ -5,10 +5,38 @@ import './Articles.scss';
 import authRequests from '../../../../helpers/data/authRequests';
 import SingleArticle from '../SingleArticle/SingleArticle';
 import NewArticleForm from '../ArticleFrom/ArticleForm';
+import articleRequests from '../../../../helpers/data/articleRequests';
 
 class Article extends React.Component {
   state = {
     articles: [],
+    isEditing: false,
+    articleId: '',
+  }
+
+  refreshArticles = () => {
+    smashRequests.getArticlesFromMeAndFriends(authRequests.getCurrentUid())
+      .then((articlesArray) => {
+        this.setState({ articles: articlesArray });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  formTitle = () => {
+    if (this.state.isEditing) {
+      return 'Edit Article';
+    }
+    return 'Add A New Article';
+  }
+
+  editing = (currentId) => {
+    if (this.state.isEditing === true) {
+      this.setState({ isEditing: false });
+    } else {
+      this.setState({ isEditing: true, articleId: currentId });
+    }
   }
 
   printArticles = () => {
@@ -18,6 +46,26 @@ class Article extends React.Component {
         this.setState({ articles: data });
       })
       .catch(err => console.error('err getting data', err));
+  }
+
+  articleBundler = () => {
+    const article = {
+      title: document.getElementById('articleName').value,
+      synopsis: document.getElementById('articleSynopsis').value,
+      url: document.getElementById('articleUrl').value,
+      uid: authRequests.getCurrentUid(),
+    };
+    if (this.state.isEditing) {
+      articleRequests.updateArticle(this.state.articleId, article);
+    } else {
+      articleRequests.postRequest(article)
+        .then(() => {
+          this.refreshArticles();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
 
   componentDidMount() {
@@ -33,6 +81,7 @@ class Article extends React.Component {
         synopsis = {article.synopsis}
         title = {article.title}
         printArticles = {this.printArticles}
+        isEditing={this.isEditing}
         />));
     return (
         <div>

@@ -5,9 +5,7 @@ import authRequests from '../../../../helpers/data/authRequests';
 
 
 class SingleArticle extends React.Component {
-  render() {
-    const articleUid = authRequests.getCurrentUid();
-    const deleteEvent = (e) => {
+    deleteEvent = (e) => {
       articleRequests.deleteArticle(this.props.id)
         .then(() => {
           this.props.printArticles();
@@ -15,36 +13,39 @@ class SingleArticle extends React.Component {
         .catch(err => console.error('error with delete', err));
     };
 
-    const editButton = () => {
-      if this.props.uid === articleUid {
-        return (
-          <div>
-            <button className = "btn btn-primary" onClcik= {updateArticle}>
-          </div>
-        );
-      }
-    };
+    editArticle = (e) => {
+      e.preventDefault();
+      this.props.isEditing(this.props.id);
+      document.getElementById('articleName').value = this.props.title;
+      document.getElementById('articleSynopsis').value = this.props.synopsis;
+      document.getElementById('articleUrl').value = this.props.url;
+    }
 
-    const deleteButton = () => {
-      if (this.props.uid === articleUid) {
+    render() {
+      if (this.props.uid === authRequests.getCurrentUid()) {
         return (
-          <div>
-          <button className="btn btn-primary" onClick={deleteEvent}>Delete</button>
+          <div className="card">
+            <div className="card-header">
+              {this.props.title}
+            </div>
+            <div className="card-body">
+              <p className="card-text">{this.props.synopsis}</p>
+              <a href={this.props.url} className="btn btn-primary">{this.props.url}</a>
+              <button type='button' className='btn btn-danger' onClick={this.deleteArticle}>Delete</button>
+              <button type='button' className='btn btn-success' onClick={this.editArticle}>Edit</button>
+            </div>
         </div>
         );
       }
-    };
-    return (
+      return (
         <div className = "card">
         <div className = "body">
           <h2>{this.props.title}</h2>
           <p>{this.props.synopsis}</p>
             <a href={this.props.url}className= "btn btn-danger">{this.props.url}</a>
-            { deleteButton() }
-
         </div>
         </div>
-    );
-  }
+      );
+    }
 }
 export default SingleArticle;
