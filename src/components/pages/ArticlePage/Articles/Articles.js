@@ -28,7 +28,7 @@ class Article extends React.Component {
   formSubmitEvent = (newArticle) => {
     const { isEditing, editId } = this.state;
     if (isEditing) {
-      articleRequests.updateEvent(editId, newArticle)
+      articleRequests.updateArticle(editId, newArticle)
         .then(() => {
           const currentUid = authRequests.getCurrentUid();
           smashRequests.getArticleFromMeAndFriends(currentUid)
@@ -50,7 +50,7 @@ class Article extends React.Component {
     }
   };
 
-  passEventToEdit = articleId => this.setState({ isEditing: true, editId: articleId });
+  passArticleToEdit = articleId => this.setState({ isEditing: true, editId: articleId });
 
   deleteSingleArticle = (articleId) => {
     articleRequests.deleteArticle(articleId)
@@ -77,8 +77,8 @@ class Article extends React.Component {
       <SingleArticle
         article={article}
         key={article.id}
-        passEventToEdit={passArticleToEdit}
-        deleteSingleEvent={this.deleteSingleArticle}
+        passArticleToEdit={passArticleToEdit}
+        deleteSingleArticle={this.deleteSingleArticle}
       />
     ));
     return (
