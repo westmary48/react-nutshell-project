@@ -1,51 +1,61 @@
 import React from 'react';
-import 'firebase/auth';
-import articleRequests from '../../../../helpers/data/articleRequests';
+import PropTypes from 'prop-types';
+import articleShape from '../../../../helpers/propz/articleShape';
 import authRequests from '../../../../helpers/data/authRequests';
 
-
 class SingleArticle extends React.Component {
-    deleteEvent = (e) => {
-      articleRequests.deleteArticle(this.props.id)
-        .then(() => {
-          this.props.printArticles();
-        })
-        .catch(err => console.error('error with delete', err));
-    };
+  static propTypes = {
+    article: articleShape.articleShape,
+    passArticleToEdit: PropTypes.func,
+    deleteSingleArticle: PropTypes.func,
+  }
 
-    editArticle = (e) => {
-      e.preventDefault();
-      this.props.isEditing(this.props.id);
-      document.getElementById('articleName').value = this.props.title;
-      document.getElementById('articleSynopsis').value = this.props.synopsis;
-      document.getElementById('articleUrl').value = this.props.url;
-    }
+  deleteSingleArticle = (e) => {
+    e.preventDefault();
+    const { deleteSingleArticle, article } = this.props;
+    deleteSingleArticle(article.id);
+  }
 
-    render() {
-      if (this.props.uid === authRequests.getCurrentUid()) {
+  editArticle = (e) => {
+    e.preventDefault();
+    const { passArticleToEdit, article } = this.props;
+    passArticleToEdit(article.id);
+  }
+
+  render() {
+    const { article } = this.props;
+    const uid = authRequests.getCurrentUid();
+
+    const makeButtons = () => {
+      if (article.uid === uid) {
         return (
-          <div className="card">
-            <div className="card-header">
-              {this.props.title}
-            </div>
-            <div className="card-body">
-              <p className="card-text">{this.props.synopsis}</p>
-              <a href={this.props.url} className="btn btn-primary">{this.props.url}</a>
-              <button type='button' className='btn btn-danger' onClick={this.deleteArticle}>Delete</button>
-              <button type='button' className='btn btn-success' onClick={this.editArticle}>Edit</button>
-            </div>
+        <div>
+          <span className="col">
+            <button className="btn btn-primary" onClick={this.editArticle}>
+              Edit
+            </button>
+          </span>
+          <span className="col">
+            <button className="btn btn-secondary" onClick={this.deleteSingleArticle}>
+              Delete
+            </button>
+          </span>
         </div>
         );
       }
-      return (
-        <div className = "card">
-        <div className = "body">
-          <h2>{this.props.title}</h2>
-          <p>{this.props.synopsis}</p>
-            <a href={this.props.url}className= "btn btn-danger">{this.props.url}</a>
+      return <span className="col-2"></span>;
+    };
+    return (
+      <div className="articleContainer card">
+        <div className="singleArticle text-center mx-auto">
+          <h3>{article.title}</h3>
+          <h5>{article.synopsis}</h5>
+          <h5>{article.url}</h5>
+          {makeButtons()}
         </div>
-        </div>
-      );
-    }
+      </div>
+    );
+  }
 }
+
 export default SingleArticle;
