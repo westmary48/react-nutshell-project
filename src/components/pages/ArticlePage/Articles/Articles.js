@@ -26,17 +26,10 @@ class Article extends React.Component {
   }
 
   componentDidMount() {
-    const currentUid = authRequests.getCurrentUid();
-    smashRequests.getArticlesFromMeAndFriends(currentUid)
-      .then((articles) => {
-        this.setState({ articles });
-      })
-      .catch((error) => {
-        console.error('error on getArticlesFromMeAndFriends', error);
-      });
+    this.getArticles();
   }
 
-  formSubmitEvent = (newArticle) => {
+  formSubmitArticle = (newArticle) => {
     const { isEditing, editId } = this.state;
     if (isEditing) {
       articleRequests.updateArticle(editId, newArticle)
@@ -50,10 +43,7 @@ class Article extends React.Component {
     } else {
       articleRequests.postRequest(newArticle)
         .then(() => {
-          this.getArticles()
-            .then((articles) => {
-              this.setState({ articles });
-            });
+          this.getArticles();
         })
         .catch(err => console.error('error with articles post', err));
     }
