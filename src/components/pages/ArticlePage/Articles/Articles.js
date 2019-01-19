@@ -14,6 +14,17 @@ class Article extends React.Component {
     editId: '-1',
   }
 
+  getArticles = () => {
+    const currentUid = authRequests.getCurrentUid();
+    smashRequests.getArticlesFromMeAndFriends(currentUid)
+      .then((articles) => {
+        this.setState({ articles });
+      })
+      .catch((error) => {
+        console.error('error on getArticlesFromMeAndFriends', error);
+      });
+  }
+
   componentDidMount() {
     const currentUid = authRequests.getCurrentUid();
     smashRequests.getArticlesFromMeAndFriends(currentUid)
@@ -30,20 +41,18 @@ class Article extends React.Component {
     if (isEditing) {
       articleRequests.updateArticle(editId, newArticle)
         .then(() => {
-          const currentUid = authRequests.getCurrentUid();
-          smashRequests.getArticleFromMeAndFriends(currentUid)
-            .then((article) => {
-              this.setState({ article, isEditing: false, editId: '-1' });
+          this.getArticles()
+            .then((articles) => {
+              this.setState({ articles, isEditing: false, editId: '-1' });
             });
         })
         .catch(err => console.error('error with articles post', err));
     } else {
       articleRequests.postRequest(newArticle)
         .then(() => {
-          const currentUid = authRequests.getCurrentUid();
-          smashRequests.getArticleFromMeAndFriends(currentUid)
-            .then((article) => {
-              this.setState({ article });
+          this.getArticles()
+            .then((articles) => {
+              this.setState({ articles });
             });
         })
         .catch(err => console.error('error with articles post', err));
@@ -55,11 +64,7 @@ class Article extends React.Component {
   deleteSingleArticle = (articleId) => {
     articleRequests.deleteArticle(articleId)
       .then(() => {
-        const currentUid = authRequests.getCurrentUid();
-        smashRequests.getArticleFromMeAndFriends(currentUid)
-          .then((article) => {
-            this.setState({ article });
-          });
+        this.getArticles();
       })
       .catch(err => console.error('error with delete single', err));
   }

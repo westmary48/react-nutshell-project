@@ -8,4 +8,4 @@ const articleShape = PropTypes.shape({
 });
 
 
-export default articleShape;
+export default { articleShape };
