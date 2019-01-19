@@ -34,10 +34,8 @@ class Article extends React.Component {
     if (isEditing) {
       articleRequests.updateArticle(editId, newArticle)
         .then(() => {
-          this.getArticles()
-            .then((articles) => {
-              this.setState({ articles, isEditing: false, editId: '-1' });
-            });
+          this.getArticles();
+          this.setState({ isEditing: false, editId: '-1' });
         })
         .catch(err => console.error('error with articles post', err));
     } else {
@@ -61,7 +59,7 @@ class Article extends React.Component {
 
   render() {
     const passArticleToEdit = (articleId) => {
-      this.setState({ isEditing: true, articleId });
+      this.setState({ isEditing: true, editId: articleId });
     };
     const {
       articles,
